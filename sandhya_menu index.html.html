@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>संध्या रेस्टुरेंट – मेन्यू</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Serif+Devanagari:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root {
+  --wine:      #3B0A14;
+  --wine-deep: #260710;
+  --wine-rich: #4E1020;
+  --wine-mid:  #6B1528;
+  --wine-lite: #8C1F35;
+  --cream:     #F5ECD8;
+  --cream-dim: #C8B89A;
+  --gold:      #D4AF6A;
+  --gold-glow: #EDD08A;
+  --gold-dim:  #9A7A40;
+  --ivory:     #FAF3E6;
+  --border:    rgba(212,175,106,0.22);
+  --bordersub: rgba(212,175,106,0.10);
+}
+html { width:100%; height:100%; }
+body { width:100%; min-height:100%; overflow-y:auto; overflow-x:hidden; background:var(--wine-deep); font-family:'Tiro Devanagari Hindi',serif; color:var(--cream); -webkit-overflow-scrolling:touch; }
+
+/* COVER */
+.cover { position:fixed; inset:0; z-index:200; background:radial-gradient(ellipse 120% 100% at 50% 0%, #5E1025 0%, #2A0810 50%, #180408 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px 24px; transition:opacity 0.7s ease, transform 0.7s ease; overflow:hidden; }
+.cover.hide { opacity:0; transform:scale(1.04); pointer-events:none; }
+.cover::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF6A' fill-opacity='0.04'%3E%3Cpath d='M40 0L42 38L80 40L42 42L40 80L38 42L0 40L38 38Z'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
+.cover-glow { position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:300px; height:300px; border-radius:50%; background:radial-gradient(circle, rgba(212,175,106,0.15) 0%, transparent 70%); pointer-events:none; }
+.cover-border { width:100%; max-width:320px; height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent); animation:shimmer 3s infinite; }
+@keyframes shimmer { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+.cover-stars { display:flex; gap:10px; margin:20px 0 16px; animation:fadeIn 1s 0.2s both; }
+.star { color:var(--gold); font-size:0.9rem; animation:pulse 2s infinite; }
+.star:nth-child(2){animation-delay:0.3s;} .star:nth-child(3){animation-delay:0.6s;} .star:nth-child(4){animation-delay:0.9s;} .star:nth-child(5){animation-delay:1.2s;}
+@keyframes pulse { 0%,100%{opacity:0.7;} 50%{opacity:1;} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:none;} }
+.cover-english { font-family:'Cinzel',serif; font-size:clamp(2rem,9vw,3rem); font-weight:700; color:var(--gold-glow); letter-spacing:6px; text-shadow:0 0 40px rgba(212,175,106,0.5),0 2px 8px rgba(0,0,0,0.8); line-height:1; animation:fadeIn 1s 0.3s both; }
+.cover-hindi { font-family:'Tiro Devanagari Hindi',serif; font-size:clamp(1.5rem,6vw,2rem); font-weight:700; color:var(--cream); letter-spacing:5px; margin-top:6px; text-shadow:0 0 20px rgba(245,236,216,0.3); animation:fadeIn 1s 0.45s both; }
+.cover-div { display:flex; align-items:center; gap:10px; width:100%; max-width:280px; margin:20px 0; animation:fadeIn 1s 0.55s both; }
+.cdl { flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--gold)); }
+.cdr { flex:1; height:1px; background:linear-gradient(90deg, var(--gold), transparent); }
+.cdd { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); box-shadow:0 0 8px var(--gold); }
+.cover-tagline { font-family:'IM Fell English',serif; font-style:italic; font-size:0.9rem; color:var(--cream-dim); letter-spacing:2px; animation:fadeIn 1s 0.65s both; }
+.cover-label { font-family:'Tiro Devanagari Hindi',serif; font-size:1rem; letter-spacing:4px; color:var(--gold-dim); margin-top:4px; animation:fadeIn 1s 0.75s both; }
+.enter-btn { margin-top:36px; background:linear-gradient(135deg, var(--wine-mid), var(--wine-lite)); border:1.5px solid var(--gold); color:var(--gold-glow); font-family:'Tiro Devanagari Hindi',serif; font-size:1.15rem; font-weight:600; padding:14px 40px; border-radius:2px; cursor:pointer; letter-spacing:3px; transition:all 0.3s; box-shadow:0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,106,0.2); animation:fadeIn 1s 0.9s both; }
+.enter-btn:active { transform:scale(0.97); }
+
+/* SINGLE SCROLL */
+.menu-wrap { width:100%; min-height:100vh; background:radial-gradient(ellipse 140% 80% at 50% 0%, #4A0E1C 0%, #260710 60%, #180408 100%); }
+
+/* PAGE HEADER - sticky */
+.page-header { position:sticky; top:0; z-index:100; background:linear-gradient(180deg, #3B0A14 0%, #2E0810 100%); border-bottom:1px solid var(--border); padding:14px 18px 12px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 12px rgba(0,0,0,0.4); will-change:transform; }
+.page-header::after { content:''; position:absolute; bottom:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent); opacity:0.5; }
+.ph-english { font-family:'Cinzel',serif; font-size:1.3rem; color:var(--gold-glow); letter-spacing:3px; font-weight:600; }
+.ph-hindi { font-family:'Tiro Devanagari Hindi',serif; font-size:1rem; color:var(--cream-dim); letter-spacing:2px; }
+.ph-num { display:none; }
+
+/* TABS - sticky below header */
+.page-tabs { position:sticky; top:57px; z-index:99; background:rgba(38,7,16,0.97); border-bottom:1px solid var(--bordersub); overflow-x:auto; scrollbar-width:none; display:flex; padding:0 4px; -webkit-overflow-scrolling:touch; will-change:transform; }
+.page-tabs::-webkit-scrollbar { display:none; }
+.ptab { background:none; border:none; color:var(--cream-dim); font-family:'Tiro Devanagari Hindi',serif; font-size:1.05rem; padding:11px 15px; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; transition:color 0.2s,border-color 0.2s; flex-shrink:0; }
+.ptab.active,.ptab:hover { color:var(--gold-glow); border-bottom-color:var(--gold); }
+
+/* BODY */
+.page-body { padding-bottom:60px; }
+
+/* SECTION */
+.sec { padding:22px 16px 4px; }
+.sec-hd { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.sec-icon { font-size:1.6rem; flex-shrink:0; filter:drop-shadow(0 0 5px rgba(212,175,106,0.4)); }
+.sec-title-hi { font-family:'Tiro Devanagari Hindi',serif; font-size:1.45rem; color:var(--gold); font-weight:700; letter-spacing:1px; }
+.sec-line { flex:1; height:1px; background:linear-gradient(90deg, rgba(212,175,106,0.4), transparent); }
+.sec-body { background:linear-gradient(180deg, rgba(78,16,32,0.35) 0%, rgba(38,7,16,0.2) 100%); border:1px solid var(--bordersub); border-radius:8px; padding:4px 14px; }
+
+/* ITEMS */
+.it { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--bordersub); position:relative; }
+.it:last-child { border-bottom:none; }
+.it:active { background:rgba(212,175,106,0.05); border-radius:4px; }
+.it-name { display:flex; align-items:center; gap:8px; flex:1; padding-right:10px; }
+.vd { width:9px; height:9px; border-radius:50%; background:#2ecc71; border:1.5px solid #5ddf9a; flex-shrink:0; box-shadow:0 0 4px rgba(46,204,113,0.4); }
+.it-text { font-family:'Tiro Devanagari Hindi',serif; font-size:1.2rem; font-weight:400; color:var(--cream); line-height:1.4; letter-spacing:0.3px; }
+.it.sp .it-text { color:var(--ivory); font-weight:700; }
+.it-price { font-family:'Cinzel',serif; font-size:1.15rem; color:var(--gold); font-weight:600; white-space:nowrap; text-align:right; }
+.hf { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+.hf-row { display:flex; align-items:center; gap:4px; }
+.hf-lbl { font-family:'Tiro Devanagari Hindi',serif; font-size:0.85rem; color:var(--gold-dim); }
+.hf-val { font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold); font-weight:600; }
+
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <div class="cover-glow"></div>
+  <div class="cover-border"></div>
+  <div class="cover-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+  <div class="cover-english">SANDHYA</div>
+  <div class="cover-hindi">संध्या रेस्टुरेंट</div>
+  <div class="cover-div"><div class="cdl"></div><div class="cdd"></div><div class="cdr"></div></div>
+  <div class="cover-tagline">Pure Vegetarian Fine Dining</div>
+  <div class="cover-label">डिजिटल मेन्यू</div>
+  <button class="enter-btn" onclick="enterMenu()">मेन्यू देखें &nbsp;✦</button>
+  <div class="cover-border" style="margin-top:28px;"></div>
+</div>
+
+<!-- MENU -->
+<div class="menu-wrap">
+  <div class="page-header">
+    <div><div class="ph-english">SANDHYA</div><div class="ph-hindi">संध्या रेस्टुरेंट</div></div>
+  </div>
+  <div class="page-tabs" id="tabs">
+    <button class="ptab active" onclick="jumpSec('s-roti',this)">🫓 रोटी</button>
+    <button class="ptab" onclick="jumpSec('s-dal',this)">🥘 दाल</button>
+    <button class="ptab" onclick="jumpSec('s-rice',this)">🍚 राइस</button>
+    <button class="ptab" onclick="jumpSec('s-biryani',this)">🍲 बिरयानी</button>
+    <button class="ptab" onclick="jumpSec('s-veg',this)">🍛 वेज इंडियन</button>
+    <button class="ptab" onclick="jumpSec('s-pizza',this)">🍕 पिज्जा</button>
+    <button class="ptab" onclick="jumpSec('s-burger',this)">🍔 बर्गर</button>
+    <button class="ptab" onclick="jumpSec('s-south',this)">🥞 साउथ</button>
+    <button class="ptab" onclick="jumpSec('s-snacks',this)">🥟 स्नैक्स</button>
+    <button class="ptab" onclick="jumpSec('s-soup',this)">🍜 सूप</button>
+    <button class="ptab" onclick="jumpSec('s-ice',this)">🍧 आइसक्रीम</button>
+    <button class="ptab" onclick="jumpSec('s-drinks',this)">🥤 ड्रिंक्स</button>
+    <button class="ptab" onclick="jumpSec('s-salad',this)">🥗 सलाद</button>
+    <button class="ptab" onclick="jumpSec('s-chaat',this)">🥙 चाट</button>
+    <button class="ptab" onclick="jumpSec('s-pastry',this)">🎂 पेस्ट्री</button>
+    <button class="ptab" onclick="jumpSec('s-sweets',this)">🍬 स्वीट्स</button>
+    <button class="ptab" onclick="jumpSec('s-breakfast',this)">🍳 ब्रेकफास्ट</button>
+    <button class="ptab" onclick="jumpSec('s-chinese',this)">🍜 चाइनीज</button>
+  </div>
+  <div class="page-body">
+    <div class="sec" id="s-roti">
+      <div class="sec-hd"><span class="sec-icon">🫓</span><span class="sec-title-hi">रोटी</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">प्लेन तवा रोटी</span></div><div class="it-price">₹10</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">बटर तवा रोटी</span></div><div class="it-price">₹12</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">प्लेन पराठा</span></div><div class="it-price">₹15</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">लच्छा पराठा</span></div><div class="it-price">₹30</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-dal">
+      <div class="sec-hd"><span class="sec-icon">🥘</span><span class="sec-title-hi">दाल</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">दाल फ्राई</span></div><div class="it-price">₹50</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">दाल तड़का</span></div><div class="it-price">₹70</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पंजाबी दाल तड़का</span></div><div class="it-price">₹90</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">दाल मखनी</span></div><div class="it-price">₹100</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-rice">
+      <div class="sec-hd"><span class="sec-icon">🍚</span><span class="sec-title-hi">राइस</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">प्लेन राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹50</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹80</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">जीरा राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹60</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹100</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">प्लेन पुलाव</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹70</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹130</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ग्रीन पुलाव</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹80</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹150</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पुलाव</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹180</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज पुलाव</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹90</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹160</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज फ्राई राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹80</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹150</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर फ्राई राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹180</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मिक्स फ्राई राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹190</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम फ्राई राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹90</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹170</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">ट्रिपल फ्राई राइस</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹130</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹250</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">स्पेशल थाली</span></div><div class="it-price">₹250</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-biryani">
+      <div class="sec-hd"><span class="sec-icon">🍲</span><span class="sec-title-hi">बिरयानी</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज बिरयानी</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹90</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹170</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर बिरयानी</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹190</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम बिरयानी</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹120</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹200</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मिक्स बिरयानी</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹130</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹250</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर हैदराबादी बिरयानी</span></div><div class="it-price">₹230</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम हैदराबादी बिरयानी</span></div><div class="it-price">₹240</div></div>
+      </div>
+    </div>
+
+    <div class="sec" id="s-veg">
+      <div class="sec-hd"><span class="sec-icon">🍛</span><span class="sec-title-hi">वेज इंडियन</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज मंचूरियन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹180</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर मंचूरियन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹110</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹200</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मटर पनीर</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹180</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">चना मसाला</span></div><div class="it-price">₹120</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर मसाला</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹110</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹200</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर बटर मसाला</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹120</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹220</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर दो प्याजा</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹160</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹300</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर कढ़ी</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹190</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम मसाला</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹150</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹280</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम दो प्याजा</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹160</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹300</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर कढ़ाई</span></div><div class="it-price">₹250</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर हांडी</span></div><div class="it-price">₹280</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम कढ़ाई</span></div><div class="it-price">₹350</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम हांडी</span></div><div class="it-price">₹380</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">शाही पनीर</span></div><div class="it-price">₹200</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मिक्स वेज</span></div><div class="it-price">₹160</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मलाई कोफ्ता</span></div><div class="it-price">₹220</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज कोफ्ता</span></div><div class="it-price">₹190</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर इरानी</span></div><div class="it-price">₹350</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर कोरमा</span></div><div class="it-price">₹220</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पंजाबी</span></div><div class="it-price">₹280</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पसंदा</span></div><div class="it-price">₹240</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर लाहौरी</span></div><div class="it-price">₹230</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पारिवारिक</span></div><div class="it-price">₹300</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर कोल्हापुरी</span></div><div class="it-price">₹270</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर तवा मसाला</span></div><div class="it-price">₹260</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-pizza">
+      <div class="sec-hd"><span class="sec-icon">🍕</span><span class="sec-title-hi">पिज्जा</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज पिज्जा</span></div><div class="it-price">₹150</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पिज्जा</span></div><div class="it-price">₹180</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर चिल्ली पिज्जा</span></div><div class="it-price">₹200</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम पिज्जा</span></div><div class="it-price">₹210</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-burger">
+      <div class="sec-hd"><span class="sec-icon">🍔</span><span class="sec-title-hi">बर्गर</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज बर्गर</span></div><div class="it-price">₹60</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर बर्गर</span></div><div class="it-price">₹70</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-south">
+      <div class="sec-hd"><span class="sec-icon">🥞</span><span class="sec-title-hi">साउथ इंडियन</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पेपर डोसा</span></div><div class="it-price">₹60</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मसाला डोसा</span></div><div class="it-price">₹80</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर डोसा</span></div><div class="it-price">₹130</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर बटर मसाला डोसा</span></div><div class="it-price">₹150</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">स्पेशल डोसा</span></div><div class="it-price">₹160</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ओनियन मसाला डोसा</span></div><div class="it-price">₹100</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम डोसा</span></div><div class="it-price">₹140</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मिक्स डोसा</span></div><div class="it-price">₹180</div></div>
+      </div>
+    </div>
+
+    <div class="sec" id="s-snacks">
+      <div class="sec-hd"><span class="sec-icon">🥟</span><span class="sec-title-hi">स्नैक्स</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज पकोड़ा</span></div><div class="it-price">₹100</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ओनियन पकोड़ा</span></div><div class="it-price">₹100</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पकोड़ा</span></div><div class="it-price">₹140</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-soup">
+      <div class="sec-hd"><span class="sec-icon">🍜</span><span class="sec-title-hi">सूप</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज सूप</span></div><div class="it-price">₹60</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज हॉट एंड सावर सूप</span></div><div class="it-price">₹70</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर सूप</span></div><div class="it-price">₹80</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर हॉट एंड सावर सूप</span></div><div class="it-price">₹90</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम सूप</span></div><div class="it-price">₹100</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम हॉट एंड सावर सूप</span></div><div class="it-price">₹120</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज मंचाव सूप</span></div><div class="it-price">₹100</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर मंचाव सूप</span></div><div class="it-price">₹110</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम मंचाव सूप</span></div><div class="it-price">₹120</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-ice">
+      <div class="sec-hd"><span class="sec-icon">🍧</span><span class="sec-title-hi">आइसक्रीम</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ट्राई कोन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-val">₹35</span></div><div class="hf-row"><span class="hf-val">₹45</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">संडे कप आइस क्रीम</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-val">₹15</span></div><div class="hf-row"><span class="hf-val">₹35</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">कप आइसक्रीम</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-val">₹20</span></div><div class="hf-row"><span class="hf-val">₹30</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">कप आइसक्रीम</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-val">₹35</span></div><div class="hf-row"><span class="hf-val">₹55</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">मटका कुल्फी</span></div><div class="it-price">₹65</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-drinks">
+      <div class="sec-hd"><span class="sec-icon">🥤</span><span class="sec-title-hi">कोल्ड ड्रिंक्स</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="it-text">मिनरल वाटर 500ML</span></div><div class="it-price">₹10</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">मिनरल वाटर 1L</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">फ्रूटी</span></div><div class="it-price">₹10</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">छाछ</span></div><div class="it-price">₹15</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">रियल जूस 200ML</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कोल्ड ड्रिंक 250ML</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">फिज 250ML</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">लस्सी</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">अमूल कूल</span></div><div class="it-price">₹30</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कैन</span></div><div class="it-price">₹25</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कैन</span></div><div class="it-price">₹40</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कैन कोल्ड कॉफी</span></div><div class="it-price">₹50</div></div>
+        <div class="it sp"><div class="it-name"><span class="it-text">कैन एक्स्ट्रा एनर्जी</span></div><div class="it-price">₹55</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कैन</span></div><div class="it-price">₹70</div></div>
+        <div class="it sp"><div class="it-name"><span class="it-text">कैन रेड बुल</span></div><div class="it-price">₹125</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कोल्ड ड्रिंक 750ML</span></div><div class="it-price">₹40</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कोल्ड ड्रिंक 1L</span></div><div class="it-price">₹50</div></div>
+        <div class="it"><div class="it-name"><span class="it-text">कोल्ड ड्रिंक 2L</span></div><div class="it-price">₹100</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-salad">
+      <div class="sec-hd"><span class="sec-icon">🥗</span><span class="sec-title-hi">सलाद</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ग्रीन सलाद</span></div><div class="it-price">₹50</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-chaat">
+      <div class="sec-hd"><span class="sec-icon">🥙</span><span class="sec-title-hi">चाट</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">समोसा चाट</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹40</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹60</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पापड़ी चाट</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹40</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹60</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">कचौड़ी चाट</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹40</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹60</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">संध्या स्पेशल मटका चाट</span></div><div class="it-price">₹80</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">प्लेन पनीर समोसा (1 पीस)</span></div><div class="it-price">₹15</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-pastry">
+      <div class="sec-hd"><span class="sec-icon">🎂</span><span class="sec-title-hi">पेस्ट्री</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पाइन एप्पल</span></div><div class="it-price">₹50</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">स्ट्रॉबेरी</span></div><div class="it-price">₹50</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">चॉकलेट</span></div><div class="it-price">₹70</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मार्बल</span></div><div class="it-price">₹70</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वाइट फॉरेस्ट</span></div><div class="it-price">₹70</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ब्लैक फॉरेस्ट</span></div><div class="it-price">₹70</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">ग्लास पेस्ट्री</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-val">₹60</span></div><div class="hf-row"><span class="hf-val">₹70</span></div></div></div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-sweets">
+      <div class="sec-hd"><span class="sec-icon">🍬</span><span class="sec-title-hi">स्वीट्स</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">रसमलाई</span></div><div class="it-price">₹35</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">छैना पायस</span></div><div class="it-price">₹40</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">रबड़ी गोला</span></div><div class="it-price">₹50</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">स्पंज (1 पीस)</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">लाल मोहन (1 पीस)</span></div><div class="it-price">₹25</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">गाजर हलवा (1 प्लेट)</span></div><div class="it-price">₹55</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">छैना रोल (1 पीस)</span></div><div class="it-price">₹40</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">सैंडविच (1 पीस)</span></div><div class="it-price">₹35</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">सोनपापड़ी (1 पीस)</span></div><div class="it-price">₹25</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">चमचम (1 पीस)</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">काजू बर्फी (1 पीस)</span></div><div class="it-price">₹20</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">शुगर फ्री अंजीर (1 पीस)</span></div><div class="it-price">₹25</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">रस माधुरी</span></div><div class="it-price">₹65</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">परवल मिठाई (1 पीस)</span></div><div class="it-price">₹25</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-breakfast">
+      <div class="sec-hd"><span class="sec-icon">🍳</span><span class="sec-title-hi">ब्रेकफास्ट</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">छोला भटूरा (दो पीस)</span></div><div class="it-price">₹80</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">आलू पराठा (प्रति पीस)</span></div><div class="it-price">₹40</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर पराठा (प्रति पीस)</span></div><div class="it-price">₹50</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पाव भाजी (दो पीस)</span></div><div class="it-price">₹100</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">दही-चीवड़ा-मीठा (400 GM)</span></div><div class="it-price">₹70</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">दही</span></div><div class="it-price">₹40</div></div>
+      </div>
+    </div>
+    <div class="sec" id="s-chinese">
+      <div class="sec-hd"><span class="sec-icon">🥢</span><span class="sec-title-hi">चाइनीज</span><div class="sec-line"></div></div>
+      <div class="sec-body">
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज रोल</span></div><div class="it-price">₹60</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर रोल</span></div><div class="it-price">₹80</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम रोल</span></div><div class="it-price">₹90</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मिक्स रोल</span></div><div class="it-price">₹100</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">वेज चाउमीन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹80</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹140</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">वेज हक्का चाउमीन</span></div><div class="it-price">₹180</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर चाउमीन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹180</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मिक्स चाउमीन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹110</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹200</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम चाउमीन</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹90</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹170</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पोटैटो चिल्ली</span></div><div class="it-price">₹150</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर चिल्ली</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹100</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹180</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">मशरूम चिल्ली</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹110</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹200</span></div></div></div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">स्पेशल चिल्ली</span></div><div class="it-price"><div class="hf"><div class="hf-row"><span class="hf-lbl">हाफ</span><span class="hf-val">₹130</span></div><div class="hf-row"><span class="hf-lbl">फुल</span><span class="hf-val">₹250</span></div></div></div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">बेबी कॉर्न चिल्ली</span></div><div class="it-price">₹220</div></div>
+        <div class="it"><div class="it-name"><span class="vd"></span><span class="it-text">बेबी कॉर्न क्रिस्पी</span></div><div class="it-price">₹200</div></div>
+        <div class="it sp"><div class="it-name"><span class="vd"></span><span class="it-text">पनीर लॉलीपॉप</span></div><div class="it-price">₹200</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:28px 20px 20px;border-top:1px solid rgba(212,175,106,0.15);margin-top:16px;">
+      <div style="color:var(--gold);font-size:1.1rem;margin-bottom:8px;">✦ ✦ ✦</div>
+      <div style="font-size:0.75rem;color:var(--cream-dim);line-height:2;letter-spacing:1px;">सभी व्यंजन शुद्ध शाकाहारी हैं<br><span style="color:var(--gold);font-family:'Cinzel',serif;letter-spacing:3px;">SANDHYA</span><br>आपके पधारने का धन्यवाद 🙏</div>
+    </div>
+  </div><!-- /page-body -->
+</div><!-- /menu-wrap -->
+
+<script>
+function enterMenu(){ document.getElementById('cover').classList.add('hide'); }
+
+const secIds=['s-roti','s-dal','s-rice','s-biryani','s-veg','s-pizza','s-burger','s-south','s-snacks','s-soup','s-ice','s-drinks','s-salad','s-chaat','s-pastry','s-sweets','s-breakfast','s-chinese'];
+const tabsEl=document.getElementById('tabs');
+
+function jumpSec(id,btn){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const hdr=document.querySelector('.page-header').offsetHeight;
+  const tab=tabsEl.offsetHeight;
+  const top=el.getBoundingClientRect().top+window.pageYOffset-hdr-tab-4;
+  window.scrollTo({top:top,behavior:'smooth'});
+  tabsEl.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+window.addEventListener('scroll',()=>{
+  const hdr=document.querySelector('.page-header').offsetHeight;
+  const tab=tabsEl.offsetHeight;
+  const offset=hdr+tab+20;
+  let cur=0;
+  secIds.forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<=offset) cur=i;
+  });
+  const btns=tabsEl.querySelectorAll('.ptab');
+  btns.forEach((b,i)=>b.classList.toggle('active',i===cur));
+  btns[cur]&&btns[cur].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+},{passive:true});
+</script>
+</body>
+</html>
